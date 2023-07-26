@@ -69,14 +69,15 @@ public class DuckTest extends DuckCRUDClient {
     @CitrusTest
     public void successfulDeleteDuck(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duckProperties = new DuckProperties().id("1");
-        validateResponse(runner, duckProperties);
+        validateResponse(runner, duckProperties.toString());
+        duckDelete(runner, "${id}");
     }
 
     @Test(description = "1 - Проверка того, что уточка обновляется")
     @CitrusTest
     public void successfulUpdateDuck1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duckProperties = new DuckProperties().color("yellow").height(0.01).id("1").material("rubber").sound("quack").wingsState("ACTIVE");
-        validateResponse(runner, duckProperties);
+        validateResponse(runner, duckProperties.toString());
 
     }
 
@@ -85,7 +86,7 @@ public class DuckTest extends DuckCRUDClient {
     public void successfulUpdateDuck2(@Optional @CitrusResource TestCaseRunner runner) {
        duckUpdate(runner, "yellow", "0.01", "4", "rubber", "meow", "FIXED");
        validateResponse(runner, jsonPath()
-               .expression("$.message", "Incorrect sound value"));
+               .expression("$.message", "Incorrect sound value").toString());
     }
 
     @Test(description = "1 - Проверка того, что получен список всех id уточек")
@@ -93,7 +94,7 @@ public class DuckTest extends DuckCRUDClient {
     public void successfulGetAllIdsDuck1(@Optional @CitrusResource TestCaseRunner runner) {
         duckGetAllIds(runner);
         DuckGetAllIds duckGetAllIds = new DuckGetAllIds().allIds(Arrays.asList("1","2","3"));
-        validateResponse(runner, duckGetAllIds);
+        validateResponse(runner, duckGetAllIds.toString());
     }
 
     @Test(description = "2 - Проверка того, что получен список всех id уточек")
@@ -101,7 +102,7 @@ public class DuckTest extends DuckCRUDClient {
     public void successfulGetAllIdsDuck2(@Optional @CitrusResource TestCaseRunner runner) {
         duckGetAllIds(runner);
         DuckGetAllIds duckGetAllIds = new DuckGetAllIds().allIds(Arrays.asList());
-        validateResponse(runner, duckGetAllIds);
+        validateResponse(runner, duckGetAllIds.toString());
     }
 
     @Test(description = "3 - Проверка того, что получен список всех id уточек")
@@ -109,7 +110,7 @@ public class DuckTest extends DuckCRUDClient {
     public void successfulGetAllIdsDuck3(@Optional @CitrusResource TestCaseRunner runner) {
         duckGetAllIds(runner);
         DuckGetAllIds duckGetAllIds = new DuckGetAllIds().allIds(Arrays.asList("1"));
-        validateResponse(runner, duckGetAllIds);
+        validateResponse(runner, duckGetAllIds.toString());
     }
 
 }
