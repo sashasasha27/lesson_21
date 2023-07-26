@@ -17,6 +17,9 @@ public class DuckProperties {
     private double height;
 
     @JsonProperty
+    private String id;
+
+    @JsonProperty
     private String material;
 
     @JsonProperty
@@ -24,6 +27,5 @@ public class DuckProperties {
 
     @JsonProperty
     private String wingsState;
-
 
 }

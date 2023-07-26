@@ -22,21 +22,21 @@ public class DuckCRUDClient extends TestNGCitrusSpringSupport {
     @Autowired
     protected HttpClient yellowDuckService;
 
-    public void duckCreate(TestCaseRunner runner, String color, String height, String material, String sound, String wingsState) {
+    public void duckCreate(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState) {
         runner.$(http().client(yellowDuckService)
                 .send()
                 .post("/api/duck/create")
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body("{\n" +
-                        "  \"color\":"+ color+"\",\n" +
-                        "  \"height\":"+ height+"\",\n" +
-                        "  \"material\":"+material+"\",\n" +
-                        "  \"sound\":"+sound+"\",\n" +
-                        "  \"wingsState\":" + wingsState+"\",\n" +
+                        "  \"color\":"+ color +"\",\n" +
+                        "  \"height\":"+ height +"\",\n" +
+                        "  \"height\":"+ id +"\",\n" +
+                        "  \"material\":"+ material + "\",\n" +
+                        "  \"sound\":"+ sound +"\",\n" +
+                        "  \"wingsState\":" + wingsState +"\",\n" +
                         "}"));
     }
-
 
     public void duckDelete(TestCaseRunner runner, String id){
         runner.$(http().client(yellowDuckService)
@@ -63,23 +63,23 @@ public class DuckCRUDClient extends TestNGCitrusSpringSupport {
                 .queryParam("wingsState", wingsState));
     }
 
-    @Description("Валидация полученного ответа")
-    public void validateResponse(TestCaseRunner runner){
+    @Description("Валидация String-ой")
+    public void validateResponse(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState){
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
                 .response(HttpStatus.OK)
                 .message().type(MessageType.JSON)
-                .body("{\n" +
-                        "  \"color\": \"yellow\",\n" +
-                        "  \"height\": 10,\n" +
-                        "  \"material\": \"stone\",\n" +
-                        "  \"sound\": \"crya\",\n" +
-                        "  \"wingsState\": \"ACTIVE\"\n" +
-                        "}"));
+                .body("{\n" + " \"color\": \"" + color + "\",\n" +
+                        " \"height\": " + height + ",\n" +
+                        " \"id\": " + id + ",\n" +
+                        " \"material\": \"" + material + "\",\n" +
+                        " \"sound\": \"" + sound + "\",\n" +
+                        " \"wingsState\": \"" + wingsState + "\"\n" + "}"));
 
     }
-    public void validateResponse(TestCaseRunner runner, String expectedPayload){
+    @Description("Валидация json-ом")
+    public void validateResponse(TestCaseRunner runner, String expectedPayload) {
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
@@ -88,10 +88,10 @@ public class DuckCRUDClient extends TestNGCitrusSpringSupport {
                 .body(new ClassPathResource("getDuckPropertiesTest/duckYellowProperties.json")));
     }
 
-    DuckProperties duckProperties = new DuckProperties().color("yellow").height(10)
-            .material("stone").sound("crya").wingsState("ACTIVE");
-    public void validateResponse(TestCaseRunner runner, Object expectedPayload){
 
+    public void validateResponse(TestCaseRunner runner, Object expectedPayload){
+        DuckProperties duckProperties = new DuckProperties().color("yellow").height(1).id("1")
+                .material("rubber").sound("quack").wingsState("ACTIVE");
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
