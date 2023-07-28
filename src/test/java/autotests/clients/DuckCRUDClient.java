@@ -7,23 +7,24 @@ import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.message.MessageType;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
-import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Step;
 import jdk.jfr.Description;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.test.context.ContextConfiguration;
 
-import static com.consol.citrus.http.actions.HttpActionBuilder.http;
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
+
 
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class DuckCRUDClient extends BaseTest {
     @Autowired
     protected HttpClient yellowDuckService;
 
+    @Step("Эндпоинт для создания уточки")
     public void duckCreate(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState) {
-        sendPostRequest(runner,
-                yellowDuckService,
+        sendPostRequest(runner, yellowDuckService,
                 "/api/duck/create",
                 "color", color,
                 "height", height,
@@ -33,20 +34,23 @@ public class DuckCRUDClient extends BaseTest {
                 "wingsState", wingsState);
     }
 
+    @Step("Эндпоинт для удаления уточки")
     public void duckDelete(TestCaseRunner runner, String id){
-        sendRequest(runner,
+        sendGetRequest(runner,
                 yellowDuckService,
                 "/api/duck/delete",
                 "id",
                 id);
     }
 
+    @Step("Эндпоинт для получения всех id уточки")
     public void duckGetAllIds(TestCaseRunner runner){
         sendDeleteRequest(runner,
                 yellowDuckService,
                 "/api/duck/getAllIds");
     }
 
+    @Step("Эндпоинт для обновления уточки")
     public void duckUpdate(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState){
         sendPostRequest(runner,
                 yellowDuckService,
@@ -84,6 +88,16 @@ public class DuckCRUDClient extends BaseTest {
                 yellowDuckService,
                 MessageType.JSON,
                 new ObjectMappingPayloadBuilder(duckProperties, new ObjectMapper()));
+    }
+
+    public void validateDuckInDatabase(TestCaseRunner runner, String id, String color, String height, String material, String sound, String wingsState) {
+        runner.$(query(testDb)
+                .statement("SELECT * FROM DUCK WHERE ID=" + id)
+                .validate("COLOR", color)
+                .validate("HEIGHT", height)
+                .validate("MATERIAL", material)
+                .validate("SOUND", sound)
+                .validate("WINGS_STATE", wingsState));
     }
 
 

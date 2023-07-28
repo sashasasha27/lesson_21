@@ -6,6 +6,8 @@ import autotests.payloads.DuckProperties;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import com.consol.citrus.testng.CitrusParameters;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -111,6 +113,14 @@ public class DuckTest extends DuckCRUDClient {
         duckGetAllIds(runner);
         DuckGetAllIds duckGetAllIds = new DuckGetAllIds().allIds(Arrays.asList("1"));
         validateResponse(runner, duckGetAllIds.toString());
+    }
+
+
+    @Test(description = "Создание уточки с проверкой данных в БД")
+    @CitrusTest
+    public void successfulCreateDuck_1(@Optional @CitrusResource TestCaseRunner runner) {
+        duckCreate(runner,"yellow","0.3", "7", "metal", "quack", "ACTIVE");
+        validateDuckInDatabase(runner, "${duckId}", "yellow", "0.3", "metal", "quack", "ACTIVE");
     }
 
 }

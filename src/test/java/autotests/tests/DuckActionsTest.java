@@ -10,6 +10,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
 import static com.consol.citrus.actions.EchoAction.Builder.echo;
+import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
+import static com.consol.citrus.container.FinallySequence.Builder.doFinally;
 import static com.consol.citrus.dsl.MessageSupport.MessageBodySupport.fromBody;
 import static com.consol.citrus.dsl.MessageSupport.MessageHeaderSupport.fromHeaders;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
@@ -146,5 +148,21 @@ public class DuckActionsTest extends DuckActionsClient {
         duckQuack(runner, "2","1","1");
         validateResponse(runner, "{\n"+ sound +":\"quack\"\n"+"}");
     }
+
+    @Test(description = "Проверка того, что уточка летит. БД")
+    @CitrusTest
+    public void successfulDuckFly_1(@Optional @CitrusResource TestCaseRunner runner) {
+        runner.variable("duckId","1");
+        runner.$(doFinally().actions(runner.$(sql(testDb)
+                .statement("DELETE FROM DUCK WHERE ID=${duckId}"))));
+        databaseUpdate(runner,"insert into DUCK (id, color, height, material, sound, wings_state)\n" +
+                "values (${duckId}, 'orange', 3.0, 'cheese', 'hrum','ACTIVE');");
+        duckFly(runner,"${duckId}");
+        validateResponseResources(runner, "getDuckPropertiesTest/actionsYellowDuck.json");
+    }
+
+
+
+
 
 }

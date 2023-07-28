@@ -1,27 +1,21 @@
 package autotests.clients;
 
-import autotests.EndpointConfig;
 import autotests.tests.BaseTest;
 import com.consol.citrus.TestCaseRunner;
-import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.message.MessageType;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
-import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.jfr.Description;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
-@ContextConfiguration(classes = {EndpointConfig.class})
+
 public class DuckActionsClient extends BaseTest {
-    @Autowired
-    protected HttpClient yellowDuckService;
 
     public void duckSwim(TestCaseRunner runner, String id) {
-        sendRequest(runner,
+        sendGetRequest(runner,
                 yellowDuckService,
                 "/api/duck/action/swim",
                 "id",
@@ -29,7 +23,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     public void duckFly(TestCaseRunner runner, String id) {
-      sendRequest(runner,
+      sendGetRequest(runner,
               yellowDuckService,
               "/api/duck/action/fly",
               "id",
@@ -37,7 +31,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     public void duckProperties(TestCaseRunner runner, String id) {
-        sendRequest(runner,
+        sendGetRequest(runner,
                 yellowDuckService,
                 "/api/duck/action/properties",
                 "id",
@@ -88,14 +82,24 @@ public class DuckActionsClient extends BaseTest {
         validateJSONRequest(runner,
                 yellowDuckService,
                 MessageType.JSON,
-                "getDuckPropertiesTest/actionsYellowDuck.json" );
+                expectedPayload);
     }
 
     public void validateResponse(TestCaseRunner runner, Object expectedPayload) {
         validateRequest(runner,
                 yellowDuckService,
                 MessageType.JSON,
-                new ObjectMappingPayloadBuilder(new ObjectMapper()));
+                (ObjectMappingPayloadBuilder) expectedPayload);
     }
+
+    @Description("Валидация json из бд")
+    protected void validateResponseResources(TestCaseRunner runner, String expectedPayload) {
+        runner.$(query(testDb)
+                .statement("SELECT * FROM DUCK WHERE ID=${duckId}")
+                .sqlResource("/delete.sql")
+
+        );
+    }
+
 
 }
