@@ -4,7 +4,6 @@ import autotests.tests.BaseTest;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.message.MessageType;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.jfr.Description;
 import org.springframework.http.MediaType;
 
