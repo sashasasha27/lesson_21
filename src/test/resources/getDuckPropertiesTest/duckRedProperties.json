@@ -1,7 +1,7 @@
 {
   "color": "red",
   "height": 3.0,
-  "id": "10",
+  "id": "@ignore@",
   "material": "plastic",
   "sound": "meow",
   "wingsState": "ACTIVE"

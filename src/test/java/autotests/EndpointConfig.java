@@ -2,7 +2,6 @@ package autotests;
 
 import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.http.client.HttpClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
@@ -15,8 +14,6 @@ public class EndpointConfig {
                 .build();
     }
 
-    @Autowired
-    protected SingleConnectionDataSource testDb;
     @Bean("testDb")
     public SingleConnectionDataSource db() {
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
