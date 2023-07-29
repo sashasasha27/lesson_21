@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 version = '1.0-SNAPSHOT'
@@ -19,8 +20,15 @@ dependencies {
 
     testCompileOnly group:'org.projectlombok', name:'lombok', version:'1.18.28'
     testAnnotationProcessor group:'org.projectlombok', name:'lombok', version:'1.18.28'
+
+    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.196'
+    testImplementation group: 'com.consol.citrus', name: 'citrus-sql', version: '3.4.0'
 }
 
 test {
-    useTestNG()
+    useTestNG() {
+        parallel = "classes"
+        threadCount 3
+        useDefaultListeners = true
+    }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestSuite" time="0.0" tests="1" errors="0" skipped="0" failures="1">
+    <testcase name="DuckTest.successfulCreateDuck1" classname="autotests.tests.DuckTest" time="0.0">
+      <failure type="com.consol.citrus.exceptions.CitrusRuntimeException" message="Unknown variable &apos;duckId&apos;">
+        <![CDATA[
+        com.consol.citrus.exceptions.CitrusRuntimeException: Unknown variable 'duckId'
+	at com.consol.citrus.variable.SegmentVariableExtractorRegistry$AbstractSegmentVariableExtractor.handleMatchFailure(SegmentVariableExtractorRegistry.java:105)
+	at com.consol.citrus.variable.SegmentVariableExtractorRegistry$AbstractSegmentVariableExtractor.extractValue(SegmentVariableExtractorRegistry.java:79)
+	at com.consol.citrus.variable.VariableExpressionIterator.lambda$createSegmentValue$1(VariableExpressionIterator.java:104)
+	at java.base/java.util.Optional.map(Optional.java:265)
+	at com.consol.citrus.variable.VariableExpressionIterator.createSegmentValue(VariableExpressionIterator.java:104)
+	at com.consol.citrus.variable.VariableExpressionIterator.<init>(VariableExpressionIterator.java:60)
+	at com.consol.citrus.variable.VariableExpressionIterator.getLastExpressionValue(VariableExpressionIterator.java:112)
+	at com.consol.citrus.context.TestContext.getVariableObject(TestContext.java:233)
+	at com.consol.citrus.context.TestContext.getVariable(TestContext.java:214)
+	at com.consol.citrus.context.TestContext.getVariable(TestContext.java:202)
+	at com.consol.citrus.variable.VariableUtils.replaceVariablesInString(VariableUtils.java:177)
+	at com.consol.citrus.context.TestContext.replaceDynamicContentInString(TestContext.java:404)
+	at com.consol.citrus.context.TestContext.replaceDynamicContentInString(TestContext.java:389)
+	at com.consol.citrus.message.builder.DefaultPayloadBuilder.buildPayload(DefaultPayloadBuilder.java:47)
+	at com.consol.citrus.message.builder.ObjectMappingPayloadBuilder.buildPayload(ObjectMappingPayloadBuilder.java:75)
+	at com.consol.citrus.validation.builder.DefaultMessageBuilder.buildMessagePayload(DefaultMessageBuilder.java:91)
+	at com.consol.citrus.validation.builder.StaticMessageBuilder.buildMessagePayload(StaticMessageBuilder.java:61)
+	at com.consol.citrus.validation.builder.DefaultMessageBuilder.build(DefaultMessageBuilder.java:61)
+	at com.consol.citrus.http.message.HttpMessageBuilder.build(HttpMessageBuilder.java:57)
+	at com.consol.citrus.actions.SendMessageAction.createMessage(SendMessageAction.java:255)
+	at com.consol.citrus.actions.SendMessageAction.doExecute(SendMessageAction.java:128)
+	at com.consol.citrus.actions.AbstractTestAction.execute(AbstractTestAction.java:59)
+	at com.consol.citrus.DefaultTestCase.executeAction(DefaultTestCase.java:136)
+	at com.consol.citrus.DefaultTestCaseRunner.run(DefaultTestCaseRunner.java:125)
+	at com.consol.citrus.TestActionRunner.$(TestActionRunner.java:35)
+	at autotests.tests.BaseTest.sendPostRequest(BaseTest.java:59)
+	at autotests.clients.DuckCRUDClient.duckCreate(DuckCRUDClient.java:13)
+	at autotests.tests.DuckTest.successfulCreateDuck1(DuckTest.java:21)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at com.consol.citrus.testng.TestNGHelper.lambda$invokeTestMethod$1(TestNGHelper.java:82)
+	at com.consol.citrus.common.DefaultTestLoader.lambda$doLoad$1(DefaultTestLoader.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+	at com.consol.citrus.common.DefaultTestLoader.doLoad(DefaultTestLoader.java:116)
+	at com.consol.citrus.common.DefaultTestLoader.load(DefaultTestLoader.java:94)
+	at com.consol.citrus.testng.TestNGHelper.invokeTestMethod(TestNGHelper.java:83)
+	at com.consol.citrus.testng.spring.TestNGCitrusSpringSupport.run(TestNGCitrusSpringSupport.java:185)
+	at com.consol.citrus.testng.spring.TestNGCitrusSpringSupport.run(TestNGCitrusSpringSupport.java:101)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:272)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:669)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:221)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:969)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:194)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+        ]]>
+      </failure>
+    </testcase>
+</testsuite>
